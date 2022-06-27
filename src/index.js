@@ -36,12 +36,14 @@ class App extends Component{
     const user = response.data;
     const users = [...this.state.users, user];
     this.setState({users});
+    window.location.hash = `#${user.id}`
   }
 
   async deleteAUser(user){
     await axios.delete(`/api/users/${user.id}`)
     const users = this.state.users.filter(_user => _user.id !== user.id);
     this.setState({users, userId: ''});
+    window.location.hash = '#';
   }
 
   render(){
