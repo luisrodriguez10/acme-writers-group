@@ -4,7 +4,6 @@ import axios from 'axios';
 import Users from './Users';
 import User from './User';
 
-
 class App extends Component{
   constructor(){
     super();
@@ -12,6 +11,8 @@ class App extends Component{
       users: [],
       userId: ''
     };
+    this.deleteAUser = this.deleteAUser.bind(this);
+    this.createAUser = this.createAUser.bind(this);
   }
   async componentDidMount(){
     try {
@@ -29,16 +30,36 @@ class App extends Component{
     }
 
   }
+
+  async createAUser(){
+    const response = await axios.post('/api/users');
+    const user = response.data;
+    const users = [...this.state.users, user];
+    this.setState({users});
+  }
+
+  async deleteAUser(user){
+    await axios.delete(`/api/users/${user.id}`)
+    const users = this.state.users.filter(_user => _user.id !== user.id);
+    this.setState({users, userId: ''});
+  }
+
   render(){
     const { users, userId } = this.state;
+    const { deleteAUser, createAUser } = this;
     return (
       <div>
-        <h1>Acme Writers Group ({ users.length })</h1>
+        <h1><a href='#'>Acme Writers Group ({ users.length })</a></h1>
         <main>
-          <Users users = { users } userId={ userId }/>
-          {
-            userId ? <User userId={ userId } /> : null
-          }
+          <section id='Users'>
+            <button onClick={createAUser}>Add a User</button>
+            <Users users = { users } userId={ userId } deleteAUser={deleteAUser}/>
+          </section>
+          <section id='User'>
+            {
+              userId ? <User userId={ userId } /> : null
+            }
+          </section>
         </main>
       </div>
     );

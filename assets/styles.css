@@ -1,0 +1,36 @@
+main {
+    display: flex;
+}
+
+h1{
+    text-align: center;
+}
+
+h2{
+    text-align: center;
+}
+
+main{
+    display: flex;
+}
+  
+section{
+    flex: 1
+}
+
+#Users{
+    display: flex;
+    flex-direction: column;
+}
+
+#User div{
+    display: flex;
+    flex-direction: column;
+}  
+.selected {
+    background-color: dodgerBlue;
+}
+
+.selected a {
+    color: cornSilk;
+}
