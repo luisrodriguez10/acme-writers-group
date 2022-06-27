@@ -6,6 +6,7 @@ const {createRandomStory, createRandomUser} = require('./seed-data')
 
 app.use('/dist', express.static('dist'));
 app.use('/assets', express.static('assets'));
+app.use(express.json());
 
 app.get('/', (req, res)=> res.sendFile(path.join(__dirname, 'index.html')));
 
@@ -47,7 +48,7 @@ app.get('/api/users/:id/stories', async(req, res, next)=> {
 
 app.post('/api/users/:id/stories', async(req, res, next)=> {
   try {
-    res.status(201).send(await Story.create(createRandomStory()));
+    res.status(201).send(await Story.create(req.body));
   }
   catch(ex){
     next(ex);
@@ -60,6 +61,16 @@ app.post('/api/users', async(req, res, next)=> {
   }
   catch(ex){
     next(ex);
+  }
+});
+
+app.put(`/api/stories/:id`, async(req, res, next) =>{
+  try {
+    const story = await Story.findByPk(req.params.id)
+    await story.update(req.body)
+    res.send(story)
+  } catch (ex) {
+    next(ex)
   }
 });
 

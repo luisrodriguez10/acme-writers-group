@@ -1,3 +1,8 @@
+body{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background-color: beige;
+}
+
 main {
     display: flex;
 }
@@ -26,11 +31,41 @@ section{
 #User div{
     display: flex;
     flex-direction: column;
-}  
-.selected {
-    background-color: dodgerBlue;
 }
 
 .selected a {
-    color: cornSilk;
+    color:cadetblue;
+}
+
+ul#ShowUsers{
+    list-style-type: none;
+}
+
+ul#UserStory{
+    list-style-type: none;
+}
+
+li#DisplayUser{
+    display: flex;
+}
+
+li#DisplayUser a{
+    flex: 0.25;
+}
+
+li#DisplayUser > *{
+    margin: 0.15rem;
+}
+
+div#Title{
+    display: flex;
+    flex-direction: row;
+}
+
+div#Title > *{
+    margin: 0.20rem;
+}
+
+.TitleFavorite{
+    color: green;
 }
