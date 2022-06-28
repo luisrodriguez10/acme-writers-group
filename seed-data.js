@@ -14,7 +14,7 @@ function createRandomStory(){
     return {
         title: faker.random.words(5),
         body: faker.lorem.paragraphs(5),
-        favorite: faker.datatype.boolean(),
+        favorite: false,
         userId: Math.ceil(Math.random() * 100)
     }
 }
