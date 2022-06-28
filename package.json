@@ -30,6 +30,6 @@
     "start": "node server.js",
     "start:dev": "npm run start-server & npm run build:dev",
     "start-server": "nodemon server --ignore dist --ignore src",
-    "seed": "node seeder.js"
+    "seed": "node db/seeder.js"
   }
 }
