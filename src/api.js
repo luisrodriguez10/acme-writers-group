@@ -25,7 +25,7 @@ const createStory = async (user) => {
   const response = await axios.post(`/api/users/${user.id}/stories`, {
     title: faker.random.words(5),
     body: faker.lorem.paragraphs(5),
-    favorite: faker.datatype.boolean(),
+    favorite: false,
     userId: user.id,
   });
   return response.data;
