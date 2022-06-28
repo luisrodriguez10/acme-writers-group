@@ -5,7 +5,7 @@ import {
   likeStory,
   fetchUser,
   fetchUserStories,
-} from "./api";
+} from "../api";
 
 class User extends Component {
   constructor() {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import Users from './Users';
-import User from './User';
+import Users from './Components/Users';
+import User from './Components/User';
 import {fetchUsers, createUser, deleteUser} from './api';
 
 class App extends Component{
