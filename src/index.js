@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import axios from 'axios';
 import Users from './Users';
 import User from './User';
+import {fetchUsers, createUser, deleteUser} from './api';
 
 class App extends Component{
   constructor(){
@@ -18,8 +18,8 @@ class App extends Component{
     try {
       const userId = window.location.hash.slice(1);
       this.setState({ userId });
-      const response = await axios.get('/api/users');
-      this.setState({ users: response.data });
+      const users = await fetchUsers()
+      this.setState({ users});
       window.addEventListener('hashchange', ()=> {
       const userId = window.location.hash.slice(1);
       this.setState({ userId });
@@ -32,21 +32,18 @@ class App extends Component{
   }
 
   async createAUser(){
-    const response = await axios.post('/api/users');
-    const user = response.data;
+    const user = await createUser();
     const users = [...this.state.users, user];
     this.setState({users});
-    // window.location.hash = `#${user.id}`
     if(this.state.userId){
       window.location.hash = `#${user.id}`
     }
   }
 
   async deleteAUser(user){
-    await axios.delete(`/api/users/${user.id}`)
+    await deleteUser(user);
     const users = this.state.users.filter(_user => _user.id !== user.id);
     this.setState({users});
-    // window.location.hash = '#';
     if(this.state.userId){
       window.location.hash = '';
     }

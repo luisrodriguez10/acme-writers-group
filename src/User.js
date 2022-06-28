@@ -1,6 +1,11 @@
 import React, { Component } from "react";
-import axios from "axios";
-import { faker } from "@faker-js/faker";
+import {
+  deleteStory,
+  createStory,
+  likeStory,
+  fetchUser,
+  fetchUserStories,
+} from "./api";
 
 class User extends Component {
   constructor() {
@@ -15,22 +20,22 @@ class User extends Component {
     this.unfavorite = this.unfavorite.bind(this);
   }
   async componentDidMount() {
-    let response = await axios.get(`/api/users/${this.props.userId}`);
-    this.setState({ user: response.data });
-    response = await axios.get(`/api/users/${this.props.userId}/stories`);
-    this.setState({ stories: response.data });
+    const user = await fetchUser(this.props.userId);
+    this.setState({ user });
+    const stories = await fetchUserStories(this.props.userId);
+    this.setState({ stories });
   }
   async componentDidUpdate(prevProps) {
     if (prevProps.userId !== this.props.userId) {
-      let response = await axios.get(`/api/users/${this.props.userId}`);
-      this.setState({ user: response.data });
-      response = await axios.get(`/api/users/${this.props.userId}/stories`);
-      this.setState({ stories: response.data });
+      const user = await fetchUser(this.props.userId);
+      this.setState({ user });
+      const stories = await fetchUserStories(this.props.userId);
+      this.setState({ stories });
     }
   }
 
   async deleteAStory(story) {
-    await axios.delete(`/api/stories/${story.id}`);
+    await deleteStory(story);
     const stories = this.state.stories.filter(
       (_story) => _story.id !== story.id
     );
@@ -38,49 +43,37 @@ class User extends Component {
   }
 
   async createAStory(user) {
-    const response = await axios.post(`/api/users/${user.id}/stories`, {
-      title: faker.random.words(5),
-      body: faker.lorem.paragraphs(5),
-      favorite: faker.datatype.boolean(),
-      userId: user.id,
-    });
-    const story = response.data;
+    const story = await createStory(user);
     const stories = [...this.state.stories, story];
     this.setState({ stories });
   }
 
-  async favorite(story){
-    const response = await axios.put(`/api/stories/${story.id}`,{
-      favorite: true
-    })
-    const storyUpdated = response.data;
+  async favorite(story) {
+    const favorite = true;
+    const storyUpdated = await likeStory({ story, favorite });
     let newStories = [];
-    this.state.stories.map(_story => {
-
-      if(_story.id === storyUpdated.id){
+    this.state.stories.map((_story) => {
+      if (_story.id === storyUpdated.id) {
         _story.favorite = true;
       }
       newStories.push(_story);
-    })
+    });
 
-    this.setState({stories: newStories});
+    this.setState({ stories: newStories });
   }
 
-  async unfavorite(story){
-    const response = await axios.put(`/api/stories/${story.id}`,{
-      favorite: false
-    })
-    const storyUpdated = response.data;
+  async unfavorite(story) {
+    const favorite = false;
+    const storyUpdated = await likeStory({ story, favorite });
     let newStories = [];
-    this.state.stories.map(_story => {
-
-      if(_story.id === storyUpdated.id){
+    this.state.stories.map((_story) => {
+      if (_story.id === storyUpdated.id) {
         _story.favorite = false;
       }
       newStories.push(_story);
-    })
+    });
 
-    this.setState({stories: newStories});
+    this.setState({ stories: newStories });
   }
 
   render() {
@@ -102,7 +95,9 @@ class User extends Component {
             return (
               <li key={story.id}>
                 <div id="Title">
-                  <h4 className={story.favorite ? 'TitleFavorite' : ''}>{story.title}</h4>
+                  <h4 className={story.favorite ? "TitleFavorite" : ""}>
+                    {story.title}
+                  </h4>
                   <button
                     id="DeleteStory"
                     onClick={() => {
@@ -112,9 +107,21 @@ class User extends Component {
                     X
                   </button>{" "}
                   {story.favorite ? (
-                    <button onClick={() => {unfavorite(story)}}>Unfavorite</button>
+                    <button
+                      onClick={() => {
+                        unfavorite(story);
+                      }}
+                    >
+                      Unfavorite
+                    </button>
                   ) : (
-                    <button onClick={() => {favorite(story)}}>Make Favorite</button>
+                    <button
+                      onClick={() => {
+                        favorite(story);
+                      }}
+                    >
+                      Make Favorite
+                    </button>
                   )}
                 </div>
                 <p>{story.body}</p>
