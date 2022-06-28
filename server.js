@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
-const { User, Story } = require('./db');
+const { User, Story } = require('./db/db');
 const path = require('path');
-const {createRandomStory, createRandomUser} = require('./seed-data')
+const {createRandomUser} = require('./db/seed-data')
 
 app.use('/dist', express.static('dist'));
 app.use('/assets', express.static('assets'));
