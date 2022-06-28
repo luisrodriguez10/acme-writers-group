@@ -35,9 +35,7 @@ class App extends Component{
     const user = await createUser();
     const users = [...this.state.users, user];
     this.setState({users});
-    if(this.state.userId){
-      window.location.hash = `#${user.id}`
-    }
+    window.location.hash = `#${user.id}`
   }
 
   async deleteAUser(user){
@@ -57,7 +55,7 @@ class App extends Component{
         <h1><a href='#'>Acme Writers Group ({ users.length })</a></h1>
         <main>
           <section id='Users'>
-            <button onClick={createAUser}>Add a User</button>
+            <button className='AddUser' onClick={createAUser}>Add a User</button>
             <Users users = { users } userId={ userId } deleteAUser={deleteAUser}/>
           </section>
           <section id='User'>

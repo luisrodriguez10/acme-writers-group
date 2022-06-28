@@ -81,7 +81,7 @@ class User extends Component {
     const { deleteAStory, createAStory, unfavorite, favorite } = this;
     return (
       <div>
-        <button
+        <button className="AddStory"
           onClick={() => {
             createAStory(user);
           }}

@@ -69,3 +69,17 @@ div#Title > *{
 .TitleFavorite{
     color: green;
 }
+
+.AddUser{
+    display: flex;
+    width: 100px;
+    justify-content: center;
+    align-self: center;
+}
+
+.AddStory{
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
