@@ -88,7 +88,7 @@ class User extends Component {
         >
           Create a Story for {user.name}
         </button>
-        <h2> Details for {user.name}</h2>
+        <h2> Details for {user.name} (# Stories: {stories.length})</h2>
         <p>{user.bio}</p>
         <ul id="UserStory">
           {stories.map((story) => {
