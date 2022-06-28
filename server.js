@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const { User, Story } = require('./db/db');
+const User = require('./db/User');
+const Story = require('./db/Story');
 const path = require('path');
 const {createRandomUser} = require('./db/seed-data')
 
